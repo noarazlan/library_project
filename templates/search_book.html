@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>digital_library</title>
+    </head>
+    <body>
+        <h1>Digital Library - Search</h1>
+        <form action="/books/search" method="post">
+            <p> Search: <input type="text" name="book_name" placeholder="Enter book name..." required></p>
+            <button type="submit">Search</button>
+        </form>
+
+        <br>
+        <a href="/books/recommended">
+            <button type="button">Recommended Books</button>
+        </a>
+
+        {% if error %}
+            <h2 style="color: rgb(192, 10, 10);">{{ error }}</h2>
+        {% endif %}
+        
+        <br><br>
+
+        {% if recommended_books %}
+            <h2>Top 10 Books:</h2>
+            <ul>
+                {% for book in recommended_books %}
+                    <li><strong>{{ book[0] }}</strong> - Rating: {{ book[1] }} / 5</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </body>
+</html>
+

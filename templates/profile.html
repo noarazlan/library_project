@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Hello {{full_name}} </h1>
+        <p>Your user name: {{username}} </p>
+        <p>Your email: {{email}} </p>
+        
+        <h2>Your Books History</h2>
+        {% if books %}
+        <table border="1">
+            <tr>
+                <th>Book Title</th>
+                <th>Book Author</th>
+                <th>Book Summary</th>
+                <th>Book Category</th>
+                <th>Book Price</th>
+                <th>Borrow Date</th>
+                <th>Retuned Date</th>
+                <th></th>
+            </tr>
+
+            {% for book in books %}
+            <tr>
+                <td>{{book[0]}}</td>
+                <td> {{book[1]}}</td>
+                <td> {{book[2]}}</td>
+                <td> {{book[3]}}</td>
+                <td>{{book[4]}}</td>
+                <td>{{book[5]}}</td>
+                <td>{% if book[6] %}
+                        {{book[6]}}
+                    {% else %}
+                        Not Retuned Yet
+                    {% endif %}
+                </td>
+            {% endfor %}
+            </tr>
+        </table>
+        {% else %}
+            <p>No Book History Yet</p>
+        {% endif %}
+
+        <a href="/">Home Page</a>
+    </body>
+</html>
