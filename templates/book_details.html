@@ -14,7 +14,36 @@
             <p><strong>Price:</strong> {{ price }}$</p>
             <p><strong>Rating:</strong> {{ rating }} / 5</p>
         </div>
+
+         <br>
+
+        <div>
+            {% if is_available %}
+                <form action="#" method="POST">
+                    <button type="submit" style="background-color: green; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">
+                        Purchase
+                    </button>
+                </form>
+            {% else %}
+                <button type="button" disabled style="background-color: grey; color: white; padding: 10px 20px; font-size: 16px; border: none; margin-bottom: 10px;">
+                    Borrowed 
+                </button>
+                
+                <br>
+                
+                <form action="#" method="POST">
+                    <button type="submit" style="background-color: orange; color: black; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">
+                        Join Waitlist 
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+
+        
+
         <br>
         <a href="http://127.0.0.1:8000/books">Back to Search</a>
     </body>
 </html>
+
+

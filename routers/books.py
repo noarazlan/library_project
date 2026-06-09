@@ -36,7 +36,7 @@ async def search_book(request: Request, book_name: str = Form(...)):
         
         # Fetch the first matching row
         book_found = cursor.fetchone()
-        conn.close()
+        #conn.close()
 
         # Check if the book was not found in the database
         if book_found is None:
@@ -46,6 +46,13 @@ async def search_book(request: Request, book_name: str = Form(...)):
                 name="search_book.html", 
                 context={"request": request, "error": f"The book '{book_name}' does not exist in our library.", "recommended_books": None}
             )
+        # check if the book is loans
+        cursor.execute("SELECT * FROM Loans WHERE book_id = ? AND actual_return_date IS NULL;", (book_found[0],))
+        active_loan = cursor.fetchone()
+        
+        conn.close()
+
+        is_available = True if active_loan is None else False
 
         # Map the database columns to a context dictionary for Jinja2
         book_context = {
@@ -55,7 +62,9 @@ async def search_book(request: Request, book_name: str = Form(...)):
             "summary": book_found[3],
             "category": book_found[4],
             "price": book_found[5],
-            "rating": book_found[6]
+            "rating": book_found[6],
+            "is_available": is_available
+            
         }    
         # Successfully found the book; render the dynamic details page
         return templates.TemplateResponse(request=request, name="book_details.html", context=book_context)
@@ -77,7 +86,7 @@ async def get_recommended_books(request: Request):
         conn = sqlite3.connect("library.db")
         cursor = conn.cursor()
 
-        # Query to fetch books with a rating of 4.5 or higher
+        # Query to fetch top 10 books
         query = "SELECT title, rating FROM Books ORDER BY rating DESC LIMIT 10;"
         cursor.execute(query)
         recommended = cursor.fetchall()
