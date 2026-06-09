@@ -1,15 +1,140 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Library - Login</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-    </head>
+       
+        .login-card {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-    <body>
+        .login-card h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 26px;
+            text-align: center;
+        }
+
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dcdde1;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        
+        .submit-btn {
+            width: 100%;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .back-home:hover {
+            color: #2c3e50;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>Account Login</h2>
+        
         <form method="post" action="/login">
-            <p> User name: <input type="text" name="username" required></p>
-            <p>Password: <input type="password" name="password" required></p>
-            <p><input type="submit"></p>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Login</button>
         </form>
-        <p>{{ Message }}</p>
-    </body>
+
+        {% if Message %}
+            <p class="error-message">{{ Message }}</p>
+        {% endif %}
+
+        <a href="/" class="back-home">← Back to Home Page</a>
+    </div>
+
+</body>
 </html>

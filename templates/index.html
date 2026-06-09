@@ -1,16 +1,97 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Library - Home</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-    </head>
+        
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
 
-    <body>
-        <h1>This is Home Page</h1>
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
 
-        <a href="/login">login</a>
-        <a href="/add-user">create account</a>
-        <a href="/profile">enter profile</a>
-        <a href="http://127.0.0.1:8000/books">search book</a>
-        <p>{{Message}}</p>
-    </body>
+        
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-link {
+            display: block;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        
+        .nav-link:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        
+        .nav-link.search-btn {
+            background-color: #2ecc71;
+        }
+
+        .nav-link.search-btn:hover {
+            background-color: #27ae60;
+        }
+
+        
+        .message {
+            color: #e74c3c;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to Digital Library</h1>
+
+        <div class="nav-menu">
+            <a href="http://127.0.0.1:8000/books" class="nav-link search-btn">🔍 Search Books</a>
+            <a href="/profile" class="nav-link"> Enter Profile</a>
+            <a href="/login" class="nav-link"> Login</a>
+            <a href="/add-user" class="nav-link"> Create Account</a>
+        </div>
+
+        {% if Message %}
+            <p class="message">{{Message}}</p>
+        {% endif %}
+    </div>
+
+</body>
 </html>

@@ -42,6 +42,18 @@ CREATE TABLE IF NOT EXISTS Loans (
 """)
 
 
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS Waitlist (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    book_id INTEGER NOT NULL,
+    id_user INTEGER NOT NULL,
+    joined_date TEXT NOT NULL,
+    FOREIGN KEY (book_id) REFERENCES Books(id),
+    FOREIGN KEY (id_user) REFERENCES Users(id_user)
+);
+""")
+
+
 users_data = [
     (1, 'john_doe', 'john.doe@example.com', 'JohnD123', 'John Doe'),
     (2, 'jane_smith', 'jane.smith@example.com', 'JaneS99', 'Jane Smith'),
@@ -201,6 +213,12 @@ loans_data = [
     (50, 50, 50, '2026-05-26', '2026-06-09', '2026-06-08')
 ]
 
+waitlist_data = [
+    # (book_id, id_user, joined_date)
+    (1, 5, '2026-06-02'),
+    (1, 6, '2026-06-03')
+]
+
 
 print("Inserting Users...")
 cursor.executemany("INSERT OR IGNORE INTO Users VALUES (?, ?, ?, ?, ?)", users_data)
@@ -211,9 +229,11 @@ cursor.executemany("INSERT OR IGNORE INTO Books VALUES (?, ?, ?, ?, ?, ?, ?)", b
 print("Inserting Loans...")
 cursor.executemany("INSERT OR IGNORE INTO Loans VALUES (?, ?, ?, ?, ?, ?)", loans_data)
 
+
+print("Inserting Waitlist...")
+cursor.executemany("INSERT INTO Waitlist (book_id, id_user, joined_date) VALUES (?, ?, ?)", waitlist_data)
+
 conn.commit()
 conn.close()
 
 print("\nSuccess! 'library.db' has been created and populated with 50 rows each.")
-
-
