@@ -97,7 +97,8 @@ def get_profile(request:Request):
     if user is None:
         return templates.TemplateResponse(request, "index.html", {"Message": "User not found"})
     
-    cursor.execute(""" select b.title, 
+    cursor.execute(""" select l.id,
+                              b.title, 
                               b.author,
                               b.summary,
                               b.category,
@@ -117,3 +118,5 @@ def get_profile(request:Request):
                                          "username": user[1],
                                           "email" : user[2],
                                            "books": books })
+
+

@@ -57,6 +57,7 @@ async def search_book(request: Request, book_name: str = Form(...)):
         # Map the database columns to a context dictionary for Jinja2
         book_context = {
             "request": request,
+            "book_id": book_found[0],
             "title": book_found[1],
             "author": book_found[2],
             "summary": book_found[3],

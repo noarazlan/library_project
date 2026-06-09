@@ -9,6 +9,7 @@
         {% if books %}
         <table border="1">
             <tr>
+                <th>Loan ID</th>
                 <th>Book Title</th>
                 <th>Book Author</th>
                 <th>Book Summary</th>
@@ -20,21 +21,28 @@
             </tr>
 
             {% for book in books %}
-            <tr>
-                <td>{{book[0]}}</td>
-                <td> {{book[1]}}</td>
-                <td> {{book[2]}}</td>
-                <td> {{book[3]}}</td>
-                <td>{{book[4]}}</td>
-                <td>{{book[5]}}</td>
-                <td>{% if book[6] %}
-                        {{book[6]}}
-                    {% else %}
-                        Not Retuned Yet
-                    {% endif %}
-                </td>
-            {% endfor %}
-            </tr>
+                <tr>
+                    <td>{{book[0]}}</td>
+                    <td> {{book[1]}}</td>
+                    <td> {{book[2]}}</td>
+                    <td> {{book[3]}}</td>
+                    <td>{{book[4]}}</td>
+                    <td>{{book[5]}}</td>
+                    <td>{{book[6]}}</td>
+                    <td>{% if book[7] %}
+                            {{book[7]}}
+                        {% else %}
+                             <form action="/loans/return-confirm" method="POST">
+
+                                    <input type="hidden" name="loan_id" value="{{ book[0] }}">
+                                    <input type="hidden" name="book_title" value="{{ book[1] }}">
+                                    <button type="submit">Return Book</button>
+                            </form>
+
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                </tr>
         </table>
         {% else %}
             <p>No Book History Yet</p>

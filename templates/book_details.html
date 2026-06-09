@@ -7,6 +7,7 @@
     <body>
         <h1>Book Found!</h1>
         <div>
+            <p><strong>Book ID:</strong> {{ book_id }}</p>
             <p><strong>Title:</strong> {{ title }}</p>
             <p><strong>Author:</strong> {{ author }}</p>
             <p><strong>Summary:</strong> {{ summary }}</p>
@@ -19,10 +20,9 @@
 
         <div>
             {% if is_available %}
-                <form action="#" method="POST">
-                    <button type="submit" style="background-color: green; color: white; padding: 10px 20px; font-size: 16px; border: none; cursor: pointer;">
-                        Purchase
-                    </button>
+                <form action="/loans/borrow" method="POST">
+                     <input type="hidden" name="book_id" value="{{ book_id }}">
+                     <button type="submit">Purchase</button>
                 </form>
             {% else %}
                 <button type="button" disabled style="background-color: grey; color: white; padding: 10px 20px; font-size: 16px; border: none; margin-bottom: 10px;">

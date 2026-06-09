@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Return Book</h1>
+        <p>Are you sure you would like to return {{book_title}}</p>
+        <form action="/loans/return" method="POST">
+                     <input type="hidden" name="loan_id" value="{{ loan_id }}">
+                     <button type="submit">Yes</button>
+        </form>
+        <a href="/profile">
+        <button type="button">No</button>
+    </a>
+    </body>
+</html>
