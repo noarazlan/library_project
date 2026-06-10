@@ -30,48 +30,29 @@ async def search_book(request: Request, book_name: str = Form(...)):
         conn = sqlite3.connect("library.db")
         cursor = conn.cursor()
 
+        search_book = f"%{book_name.strip()}%"
+
         # Secure SQL query using parameterized input to prevent SQL Injection
-        query = "SELECT * FROM Books WHERE LOWER(title) = LOWER(?);"
-        cursor.execute(query, (book_name.strip(),))
+        query = "SELECT * FROM Books WHERE LOWER(title) like LOWER(?);"
+        cursor.execute(query, (search_book,))
         
         # Fetch the first matching row
-        book_found = cursor.fetchone()
+        book_found = cursor.fetchall()
         #conn.close()
 
         # Check if the book was not found in the database
-        if book_found is None:
+        if not book_found:
             # Re-render the search page with an error message, explicitely setting recommended_books to None
             return templates.TemplateResponse(
                 request=request, 
                 name="search_book.html", 
                 context={"request": request, "error": f"The book '{book_name}' does not exist in our library.", "recommended_books": None}
             )
-        # check if the book is loans
-        cursor.execute("SELECT * FROM Loans WHERE book_id = ? AND actual_return_date IS NULL;", (book_found[0],))
-        active_loan = cursor.fetchone()
         
-        conn.close()
-
-        is_available = True if active_loan is None else False
-
-        # Map the database columns to a context dictionary for Jinja2
-        book_context = {
-            "request": request,
-            "title": book_found[1],
-
-            "book_id": book_found[0],
-
-            "author": book_found[2],
-            "summary": book_found[3],
-            "category": book_found[4],
-            "price": book_found[5],
-            "rating": book_found[6],
-            "is_available": is_available
-            
-        }    
-        # Successfully found the book; render the dynamic details page
-        return templates.TemplateResponse(request=request, name="book_details.html", context=book_context)
-        
+        return templates.TemplateResponse(request=request, name="search_results.html", context={"request":request, "books":book_found, "search_text":book_name})
+    
+    
+       
     except Exception as e:
         print(f"Server Error: {e}")
         return templates.TemplateResponse(
@@ -80,6 +61,84 @@ async def search_book(request: Request, book_name: str = Form(...)):
             context={"request": request, "error": "An error occurred on the server.", "recommended_books": None}
         )
    
+
+
+
+@router.post("/details" , response_class=HTMLResponse)
+async def book_details(request:Request, book_id:int = Form()):
+
+    conn = sqlite3.connect("library.db")
+    cursor = conn.cursor()
+
+    cursor.execute("select * from Books where id = ?",(book_id,))
+
+    book_found = cursor.fetchone()
+
+
+    if book_found is None:
+        conn.close()
+        return templates.TemplateResponse(
+                request=request, 
+                name="search_book.html", 
+                context={"request": request, "error": "Book not found", "recommended_books": None}
+            )
+    
+
+    cursor.execute("select * from Loans where book_id = ? and actual_return_date is Null",(book_id,))
+
+    active_loan = cursor.fetchone()
+        
+    conn.close()
+
+    is_available = True if active_loan is None else False
+
+    # Map the database columns to a context dictionary for Jinja2
+    book_context = {
+        "request": request,
+        "title": book_found[1],
+        "book_id": book_found[0],
+        "author": book_found[2],
+        "summary": book_found[3],
+        "category": book_found[4],
+        "price": book_found[5],
+        "rating": book_found[6],
+        "is_available": is_available
+        }    
+        # Successfully found the book; render the dynamic details page
+    return templates.TemplateResponse(request=request, name="book_details.html", context=book_context)
+        
+
+
+
+
+
+
+
+
+@router.post("/search-author", response_class=HTMLResponse)
+async def search_author(request:Request, author_name: str = Form()):
+
+    search_author = f"%{author_name.strip()}%"
+    conn = sqlite3.connect("library.db")
+    cursor = conn.cursor()
+
+    cursor.execute("select * from Books where lower(author) like lower(?)", (search_author,))
+    author = cursor.fetchall()
+    conn.close()
+
+    if not author:
+        return templates.TemplateResponse(
+            request=request, 
+            name="search_book.html", 
+            context={"request": request, "error": f"The author '{search_author}' does not exist in our library.", "recommended_books": None}
+        )
+    
+    return templates.TemplateResponse(request=request, name="author.html", context={"request":request, "author_name":author_name, "books":author})
+
+
+
+
+
 
 # Route to get and display recommended books on the same page
 @router.get("/recommended", response_class=HTMLResponse)
@@ -205,3 +264,16 @@ async def join_waitlist(request: Request, book_id: int = Form(...)):
     except Exception as e:
         print(f"Waitlist Error: {e}")
         return f"An error occurred while joining the waitlist: {e}"
+    
+
+
+
+
+
+
+
+
+
+
+
+     

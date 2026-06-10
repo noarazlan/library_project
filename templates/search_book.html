@@ -197,7 +197,12 @@
         <h1>Digital Library - Search</h1>
         
         <form action="/books/search" method="post" class="search-box">
-            <input type="text" name="book_name" placeholder="Enter book name..." required>
+            <input type="text" name="book_name" placeholder="Enter book name..." >
+            <button type="submit">Search</button>
+        </form>
+
+        <form action="/books/search-author" method="post" class="search-box">
+            <input type="text" name="author_name" placeholder="Enter author name..." >
             <button type="submit">Search</button>
         </form>
 
