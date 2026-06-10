@@ -90,7 +90,7 @@ async def return_book(request:Request, loan_id:int = Form()):
 
     return templates.TemplateResponse(request, "rating.html", {
         "loan_id": loan_id, 
-        "book_id": book_id, 
+        "book_id": book_id,   
         "book_title": book_title
     })
     

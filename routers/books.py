@@ -70,10 +70,9 @@ async def book_details(request:Request, book_id:int = Form()):
     conn = sqlite3.connect("library.db")
     cursor = conn.cursor()
 
+    # 1. Fetch the main book details
     cursor.execute("select * from Books where id = ?",(book_id,))
-
     book_found = cursor.fetchone()
-
 
     if book_found is None:
         conn.close()
@@ -83,11 +82,20 @@ async def book_details(request:Request, book_id:int = Form()):
                 context={"request": request, "error": "Book not found", "recommended_books": None}
             )
     
-
+    # 2. Check if the book is currently loaned out
     cursor.execute("select * from Loans where book_id = ? and actual_return_date is Null",(book_id,))
-
     active_loan = cursor.fetchone()
         
+    # NEW: 3. Fetch all reviews and ratings for this book, including the reviewer's full name
+    reviews_query = """
+        SELECT Ratings.rating_value, Ratings.review_text, Users.full_name 
+        FROM Ratings 
+        JOIN Users ON Ratings.id_user = Users.id_user 
+        WHERE Ratings.book_id = ?;
+    """
+    cursor.execute(reviews_query, (book_id,))
+    book_reviews = cursor.fetchall()  # Returns a list of tuples: (rating, text, user_name)
+
     conn.close()
 
     is_available = True if active_loan is None else False
@@ -102,12 +110,12 @@ async def book_details(request:Request, book_id:int = Form()):
         "category": book_found[4],
         "price": book_found[5],
         "rating": book_found[6],
-        "is_available": is_available
-        }    
-        # Successfully found the book; render the dynamic details page
+        "is_available": is_available,
+        "reviews": book_reviews  # <-- NEW: Passing the reviews list to the HTML template
+    }    
+    
+    # Successfully found the book; render the dynamic details page
     return templates.TemplateResponse(request=request, name="book_details.html", context=book_context)
-        
-
 
 
 
@@ -265,15 +273,3 @@ async def join_waitlist(request: Request, book_id: int = Form(...)):
         print(f"Waitlist Error: {e}")
         return f"An error occurred while joining the waitlist: {e}"
     
-
-
-
-
-
-
-
-
-
-
-
-     

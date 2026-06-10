@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Digital Library - Book Details</title>
     <style>
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
@@ -19,7 +18,6 @@
             box-sizing: border-box;
         }
 
-        
         .book-card {
             background-color: white;
             padding: 40px;
@@ -28,6 +26,7 @@
             max-width: 550px;
             width: 100%;
             box-sizing: border-box;
+            margin-bottom: 30px; /* Space between book card and reviews */
         }
 
         .book-card h1 {
@@ -40,7 +39,6 @@
             padding-bottom: 15px;
         }
 
-       
         .info-row {
             display: flex;
             padding: 12px 0;
@@ -65,7 +63,6 @@
             line-height: 1.5;
         }
 
-        
         .id-value {
             color: #7f8c8d;
             font-weight: 600;
@@ -85,7 +82,6 @@
             font-size: 14px;
         }
 
-       
         .actions-container {
             margin-top: 25px;
             display: flex;
@@ -93,7 +89,6 @@
             gap: 12px;
         }
 
-        
         .purchase-btn {
             width: 100%;
             background-color: #2ecc71;
@@ -143,7 +138,6 @@
             transform: translateY(-2px);
         }
 
-        
         .success-box {
             background-color: #e3f2fd;
             border-left: 5px solid #2196f3;
@@ -157,7 +151,74 @@
             text-align: left;
         }
 
-      
+        /* NEW: Styles for the User Reviews Section */
+        .reviews-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 550px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .reviews-container h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 20px;
+            border-bottom: 2px solid #f4f7f6;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .review-card {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+
+        .review-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .review-stars {
+            background-color: #fef9e7;
+            color: #f1c40f;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .review-text {
+            color: #57606f;
+            font-size: 15px;
+            line-height: 1.4;
+            font-style: italic;
+            margin: 0;
+        }
+
+        .no-reviews {
+            color: #95a5a6;
+            font-style: italic;
+            text-align: center;
+            margin: 0;
+        }
+
         .back-link {
             display: block;
             text-align: center;
@@ -230,6 +291,30 @@
             <div class="success-box">
                 ℹ️ {{ message }}
             </div>
+        {% endif %}
+    </div>
+
+    <div class="reviews-container">
+        <h2>💬 User Reviews</h2>
+        
+        {% if reviews %}
+            {% for review in reviews %}
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">👤 {{ review[2] }}</span>
+                        <span class="review-stars">⭐ {{ review[0] }} / 5</span>
+                    </div>
+                    <p class="review-text">
+                        {% if review[1] and review[1].strip() %}
+                            "{{ review[1] }}"
+                        {% else %}
+                            <span style="color: #bdc3c7;">Rated this book without writing a comment.</span>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-reviews">No reviews for this book yet. Be the first to review it!</p>
         {% endif %}
 
         <a href="http://127.0.0.1:8000/books" class="back-link">← Back to Search</a>
