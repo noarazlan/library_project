@@ -1,0 +1,22 @@
+
+table th {
+    background-color: #2196F3;
+}
+
+
+table button {
+    background-color: #2196F3;
+}
+
+table button:hover {
+    background-color: #1976D2;
+}
+
+
+.back-link {
+    color: #2196F3;
+}
+
+.back-link:hover {
+    color: #1976D2;
+}

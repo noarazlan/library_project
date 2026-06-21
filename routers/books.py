@@ -6,13 +6,13 @@ from fastapi.templating import Jinja2Templates
 # Initialize Jinja2 templates directory for rendering HTML files
 templates = Jinja2Templates(directory="templates")
 
-# Create an APIRouter instance to group book-related endpoint
+# Create an APIRouter instance to group book related endpoint
 router = APIRouter(
     prefix="/books",
     tags=["books"]
 )
 
-# Route to serve the initial HTML search page (Keep only ONE get route for "/")
+# Route to serve the initial HTML search page
 @router.get("/", response_class=HTMLResponse)
 async def get_search_page(request: Request):
     # Render the search form, setting both error and recommended_books to None initially
@@ -42,7 +42,7 @@ async def search_book(request: Request, book_name: str = Form(...)):
 
         # Check if the book was not found in the database
         if not book_found:
-            # Re-render the search page with an error message, explicitely setting recommended_books to None
+            # Rerender the search page with an error message, explicitely setting recommended_books to None
             return templates.TemplateResponse(
                 request=request, 
                 name="search_book.html", 
@@ -70,7 +70,7 @@ async def book_details(request:Request, book_id:int = Form()):
     conn = sqlite3.connect("library.db")
     cursor = conn.cursor()
 
-    # 1. Fetch the main book details
+    # Fetch the main book details
     cursor.execute("select * from Books where id = ?",(book_id,))
     book_found = cursor.fetchone()
 
@@ -82,11 +82,11 @@ async def book_details(request:Request, book_id:int = Form()):
                 context={"request": request, "error": "Book not found", "recommended_books": None}
             )
     
-    # 2. Check if the book is currently loaned out
+    # Check if the book is currently loaned out
     cursor.execute("select * from Loans where book_id = ? and actual_return_date is Null",(book_id,))
     active_loan = cursor.fetchone()
         
-    # NEW: 3. Fetch all reviews and ratings for this book, including the reviewer's full name
+    # Fetch all reviews and ratings for this book, including the reviewer's full name
     reviews_query = """
         SELECT Ratings.rating_value, Ratings.review_text, Users.full_name 
         FROM Ratings 
@@ -94,7 +94,7 @@ async def book_details(request:Request, book_id:int = Form()):
         WHERE Ratings.book_id = ?;
     """
     cursor.execute(reviews_query, (book_id,))
-    book_reviews = cursor.fetchall()  # Returns a list of tuples: (rating, text, user_name)
+    book_reviews = cursor.fetchall()  
 
     conn.close()
 
@@ -111,10 +111,10 @@ async def book_details(request:Request, book_id:int = Form()):
         "price": book_found[5],
         "rating": book_found[6],
         "is_available": is_available,
-        "reviews": book_reviews  # <-- NEW: Passing the reviews list to the HTML template
+        "reviews": book_reviews  
     }    
     
-    # Successfully found the book; render the dynamic details page
+    # Successfully found the book, render the dynamic details page
     return templates.TemplateResponse(request=request, name="book_details.html", context=book_context)
 
 

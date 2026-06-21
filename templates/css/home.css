@@ -1,0 +1,57 @@
+
+.container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.container h1 {
+    font-size: 28px;
+}
+
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.nav-link {
+    display: block;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+
+.nav-link.search-btn {
+    background-color: #2ecc71;
+}
+
+.nav-link.search-btn:hover {
+    background-color: #27ae60;
+}
+
+
+.message {
+    color: #e74c3c;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}

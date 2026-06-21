@@ -1,0 +1,81 @@
+
+.login-card, .register-card, .rate-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.login-card h2, .register-card h2, .rate-card h1 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 26px;
+    text-align: center;
+}
+
+
+.input-group, .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+
+.input-group label, .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #34495e;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+.input-group input, .rating-select, .review-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #dcdde1;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background-color: white;
+}
+
+
+.input-group input:focus, .rating-select:focus, .review-textarea:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+
+.submit-btn {
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+
+.error-message {
+    color: #e74c3c;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 14px;
+}
