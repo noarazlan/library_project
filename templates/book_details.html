@@ -46,7 +46,7 @@
             {% if is_available %}
                 <form action="/loans/borrow" method="POST">
                     <input type="hidden" name="book_id" value="{{ book_id }}">
-                    <button type="submit" class="purchase-btn">Purchase Book</button>
+                    <button type="submit" class="purchase-btn">Loan Book</button>
                 </form>
             {% else %}
                 <button type="button" class="borrowed-btn" disabled>🔒 Currently Borrowed</button>

@@ -5,7 +5,7 @@ import uvicorn
 
 app = FastAPI()
 
-app.mount("/static/css", StaticFiles(directory="C:/Users/salom/OneDrive/שולחן העבודה/cyberpro/midle_project/library_project/templates/css"), name="static_css")
+app.mount("/static/css", StaticFiles(directory="templates/css"), name="static_css")
 
 app.include_router(users.router)
 app.include_router(books.router)
