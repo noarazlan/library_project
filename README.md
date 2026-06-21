@@ -6,4 +6,4 @@ Digital Library System built with FastAPI and SQLite.
 
 The project presentation can be found here:
 
-- Library_Project_Presentation.pptx
+- "Digital Library Slide Deck (1).pptx"
